@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
+import '../services/hobby_service.dart';
+import '../services/gemini_service.dart';
 import 'result_screen.dart';
 
 class QuestionScreen extends StatefulWidget {
@@ -24,43 +25,25 @@ class _QuestionScreenState extends State<QuestionScreen> {
   );
 
   bool isLoading = false;
+  final GeminiService geminiService = GeminiService("AIzaSyCWjX3NqQ8Y9VII_dOYKUK7WxIzAmMsUA4"); // Replace with actual key
 
   Future<void> _generateHobbies() async {
-    setState(() {
-      isLoading = true;
-    });
+    setState(() => isLoading = true);
 
     final answers = controllers.map((c) => c.text).join("\n");
+    final matchedHobbies = await HobbyService.findHobbies(answers);
+    final hobbySuggestions = await geminiService.generateHobbySuggestions(answers, matchedHobbies);
 
-    final model = GenerativeModel(
-      model: 'gemini-pro',
-      apiKey: 'AIzaSyArIxzS-chqpUoV5qJHgu3v5bQNwj9RjBE', // 🔑 Replace with your key
-    );
-
-    try {
-      final prompt =
-          "Based on the following answers, suggest 3 hobbies:\n$answers";
-      final response = await model.generateContent([Content.text(prompt)]);
-
-      final hobbies = response.text ?? "No suggestions found.";
-
-      if (mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ResultScreen(hobbies: hobbies),
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${e.toString()}")),
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResultScreen(hobbies: hobbySuggestions),
+        ),
       );
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
     }
+
+    setState(() => isLoading = false);
   }
 
   @override
