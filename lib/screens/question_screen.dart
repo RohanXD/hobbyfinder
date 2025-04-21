@@ -25,7 +25,15 @@ class _QuestionScreenState extends State<QuestionScreen> {
   );
 
   bool isLoading = false;
-  final GeminiService geminiService = GeminiService("AIzaSyCWjX3NqQ8Y9VII_dOYKUK7WxIzAmMsUA4"); // Replace with actual key
+
+  final String apiKey = "AIzaSyCWjX3NqQ8Y9VII_dOYKUK7WxIzAmMsUA4"; // Replace with your actual Gemini API key
+  late GeminiService geminiService;
+
+  @override
+  void initState() {
+    super.initState();
+    geminiService = GeminiService(apiKey); // Initialize GeminiService with API key
+  }
 
   Future<void> _generateHobbies() async {
     setState(() => isLoading = true);
