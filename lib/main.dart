@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hobbss/screens/question_screen.dart';
+import 'screens/question_screen.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,28 +1,31 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiService {
-  final GenerativeModel _model;
+  final String apiKey;
 
-  GeminiService(String apiKey)
-      : _model = GenerativeModel(
-    model: 'gemini-2.0-flash', // Use the same model name here!
-    apiKey: apiKey,
-  );
+  GeminiService(this.apiKey);
 
   Future<String> generateHobbySuggestions(String answers, List<String> matchedHobbies) async {
-    final prompt = '''
-User answered the following questions:
-$answers
-
-Based on the answers, suggest the 3 most suitable hobbies from this list: ${matchedHobbies.join(', ')}.
-    ''';
+    final prompt = "User answered:\n$answers\nSuggest hobbies from this list:\n${matchedHobbies.join(', ')}";
 
     try {
-      final response = await _model.generateContent([
+      // Use gemini-2.0-flash model
+      final model = GenerativeModel(
+        model: 'gemini-2.0-flash',
+        apiKey: apiKey,
+      );
+
+      final response = await model.generateContent([
         Content.text(prompt),
       ]);
 
-      return response.text?.trim() ?? "No suggestions found.";
+      final text = response.text;
+
+      if (text != null && text.isNotEmpty) {
+        return text;
+      } else {
+        return "No relevant hobbies found. Try adjusting your answers.";
+      }
     } catch (e) {
       return "Error: ${e.toString()}";
     }
