@@ -84,10 +84,5 @@ Choose from three visually pleasing themes:
 - `google_fonts` – Font customization
 - `http` – API calls to Gemini
 
-## 📜 License
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
----
-
 Made with ❤️ using Flutter & Gemini AI
 
