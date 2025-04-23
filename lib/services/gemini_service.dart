@@ -6,10 +6,22 @@ class GeminiService {
   GeminiService(this.apiKey);
 
   Future<String> generateHobbySuggestions(String answers, List<String> matchedHobbies) async {
-    final prompt = "User answered:\n$answers\nSuggest hobbies from this list:\n${matchedHobbies.join(', ')}";
+    final prompt = '''
+User's Answers:
+$answers
+
+From the following hobbies: ${matchedHobbies.join(', ')}
+
+Please format the response like this for each hobby:
+
+Hobby: [Hobby Name]
+Description: [Short description of the hobby]
+Reason: [Why this hobby fits the user based on their answers]
+
+Only include hobbies from the list and return 2 to 4 best matches.
+''';
 
     try {
-      // Use gemini-2.0-flash model
       final model = GenerativeModel(
         model: 'gemini-2.0-flash',
         apiKey: apiKey,
@@ -20,7 +32,6 @@ class GeminiService {
       ]);
 
       final text = response.text;
-
       if (text != null && text.isNotEmpty) {
         return text;
       } else {

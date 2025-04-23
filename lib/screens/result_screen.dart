@@ -13,7 +13,7 @@ class ResultScreen extends StatelessWidget {
     for (final section in hobbySections) {
       final lines = section.trim().split('\n');
       if (lines.length >= 2) {
-        final title = lines[0].replaceAll(RegExp(r'^[-*]\s*'), '');
+        final title = lines[0].replaceAll('**', '').trim(); // Remove ** from titles
         final description = lines.sublist(1).join('\n');
         results.add({'title': title, 'description': description});
       }
@@ -37,41 +37,34 @@ class ResultScreen extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            // Display plain answers text
-            Text(
-              hobbies.split('Hobbies:').first.trim(),
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 30),
-            const Text(
-              "Recommended Hobbies:",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-
-            // Display hobbies in expandable cards
+            // Expandable hobby recommendation cards
             ...hobbyList.map((hobby) {
-              return Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                child: ExpansionTile(
-                  title: Text(
-                    hobby['title'] ?? '',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              return ExpansionTile(
+                title: Text(
+                  hobby['title'] ?? 'Unknown Hobby',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                        hobby['description'] ?? '',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
                 ),
+                children: [
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: Text(
+                      hobby['description'] ?? '',
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  )
+                ],
               );
-            }),
+            }).toList(),
           ],
         ),
       ),
