@@ -58,7 +58,7 @@ lib/
 ![Result Screen](screenshots/result_screen.png)
 
 ### Theme Switcher
-![Theme Switcher](screenshots/theme_switcher.png)
+![Theme Switcher](screenshots/themes.png)
 
 
 ## How to Run the App
