@@ -13,9 +13,10 @@ The **Hobbs** is a Flutter-based mobile application that uses the **Gemini API**
 ## 🗂️ Folder Structure
 ```
 lib/
-├── main.dart              # Entry point of the app
-├── hobby_service.dart     # Logic for AI hobby generation
-├── gemini_service.dart    # Handles Gemini API calls
+├── main.dart                  # Entry point of the app
+├── services
+│   ├── hobby_service.dart     # Logic for AI hobby generation
+│   └── gemini_service.dart    # Handles Gemini API calls
 ├── screens/
 │   ├── home_screen.dart
 │   ├── question_screen.dart
