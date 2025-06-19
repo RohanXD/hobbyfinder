@@ -1,4 +1,5 @@
 # Hobby Recommender App
+Hobby Recommendation System
 
 ## Description
 The Hobby Recommender App is a Flutter-based mobile application that uses the Gemini API to recommend hobbies based on user preferences. The app prompts users with 5 questions, collects their answers, and generates 2-4 personalized hobby recommendations. Each hobby recommendation is displayed on the result screen with a description and a personalized explanation from the AI about why the hobby suits the user. The app also includes a theme-switching feature with 3 color palettes and a navigation bar for easy navigation.
